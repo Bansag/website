@@ -31,31 +31,32 @@ npm run lint
 
 ## Deployments
 
-Production is served from **Cloudflare Pages** (build: `npm run build`, output: **`dist`**). SPA routing uses [`public/_redirects`](public/_redirects) so deep links work.
+Production targets **Cloudflare** with the static output in **`dist/`**.
 
-Use **one** of the following — do not enable Dashboard Git builds *and* the GitHub Action on the same Pages project (you would get duplicate deploys).
+### Workers Static Assets + `wrangler deploy` (current CI setup)
 
-### Option A — Cloudflare “Connect to Git” (no GitHub secrets)
+This repo includes [`wrangler.jsonc`](wrangler.jsonc) with **`assets.not_found_handling: "single-page-application"`** so React Router deep links and refreshes work **without** a root `/* → /index.html` rule in **`public/_redirects`**. Combining that catch-all `_redirects` line with Wrangler’s SPA asset mode triggers Cloudflare validation error **10021** (infinite loop).
 
-1. Cloudflare Dashboard → **Workers & Pages** → **Create** → **Pages** → **Connect to Git**.
-2. Install the GitHub app for org **Bansag**, repo **`website`**, production branch **`main`**.
-3. Build settings: command **`npm run build`**, output directory **`dist`**.
+- **Dashboard:** build command **`npm run build`**, deploy command **`npm run deploy`** or **`npx wrangler deploy`** (after a build, `dist/` must exist).
+- **Local:** `CLOUDFLARE_API_TOKEN` must be set (or `wrangler login`) for `wrangler deploy`.
 
-After the first successful deploy, open the Pages project → **Custom domains** → add **`bansag.com`** and **`www.bansag.com`**, then confirm the DNS records Cloudflare suggests for the **bansag.com** zone (TLS is automatic).
+### Classic Cloudflare Pages (Git “Connect to Git” or `pages-action` only)
 
-### Option B — Deploy via GitHub Action ([`.github/workflows/deploy-cloudflare-pages.yml`](.github/workflows/deploy-cloudflare-pages.yml))
+If you deploy **only** through **Cloudflare Pages** (not Workers static assets + Wrangler), you may use a Pages **`_redirects`** file for SPA fallback instead — **do not** use that **and** Wrangler **`single-page-application`** on the same project.
 
-Use this if you prefer deploy credentials in GitHub instead of the Cloudflare–GitHub integration.
+Use **one** primary pipeline:
 
-1. In Cloudflare, create a Pages project named **`bansag-website`** (e.g. **Workers & Pages** → **Create** → use the **Create** flow for a new project, or run locally: `npx wrangler pages project create bansag-website` with `CLOUDFLARE_API_TOKEN` set).
-2. Create an **API token** with permission to edit Cloudflare Pages (e.g. **Account** → **Cloudflare Pages** → **Edit**).
-3. In the GitHub repo **Settings → Secrets and variables → Actions**, add:
-   - **`CLOUDFLARE_API_TOKEN`**
-   - **`CLOUDFLARE_ACCOUNT_ID`**
-4. In **Settings → Secrets and variables → Actions → Variables**, set **`CF_PAGES_DEPLOY`** to **`true`** to turn on the deploy workflow. Leave it unset or not `true` if you use **Option A** only.
-5. Attach **Custom domains** (`bansag.com`, `www.bansag.com`) on the **bansag-website** Pages project as in Option A.
+1. **Workers + Wrangler** — as above; keep [`wrangler.jsonc`](wrangler.jsonc), no SPA `_redirects`.
+2. **Pages + GitHub Action** — see [`.github/workflows/deploy-cloudflare-pages.yml`](.github/workflows/deploy-cloudflare-pages.yml); set repo secrets and **`CF_PAGES_DEPLOY=true`** if you use this instead. Do not double-deploy the same hostname from both Workers and Pages.
+
+### Cloudflare Dashboard (Pages “Connect to Git”)
+
+1. **Workers & Pages** → connect repo **Bansag/website**, branch **`main`**.
+2. Set **build** to **`npm run build`** and output to **`dist`**, and set **deploy** to match your chosen path (**Wrangler** vs **Pages-only** as above).
+
+After deploy, attach **Custom domains** **`bansag.com`** and **`www.bansag.com`** on the Cloudflare project and complete DNS as prompted.
 
 ### Repository hygiene (org owner)
 
-- **Branch protection** on **`main`**: Settings → **Branches** → **Add rule** for `main` — e.g. **Require a pull request before merging**, **Require status checks to pass** → select **`CI`** / **`build`** once workflows have run at least once.
-- **Team access**: Org/repo **Settings → Collaborators and teams** (or org teams) — grant **Write** or **Maintain** as appropriate.
+- **Branch protection** on **`main`**: Settings → **Branches** → **Add rule** — e.g. **Require a pull request before merging**, **Require status checks** → **`CI` / `build`** once workflows have run.
+- **Team access**: Org/repo **Settings → Collaborators and teams** — grant **Write** or **Maintain** as appropriate.

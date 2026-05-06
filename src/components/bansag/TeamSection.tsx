@@ -4,8 +4,8 @@ import { motion, useInView } from "framer-motion";
 const ORANGE = "#FF5500";
 const LIGHT = "#F5F0EB";
 
-/** Bundled at build time — add photos under `src/assets/founders/` (see SLUG map). */
-const founderImageUrls = import.meta.glob("../../assets/founders/*.{jpg,jpeg,png,JPG,JPEG,PNG,webp,WEBP}", {
+/** Bundled at build time — add photos under `src/assets/Founders/` (case-sensitive on Linux CI). */
+const founderImageUrls = import.meta.glob("../../assets/Founders/*.{jpg,jpeg,png,JPG,JPEG,PNG,webp,WEBP}", {
   eager: true,
   as: "url",
 }) as Record<string, string>;
