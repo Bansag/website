@@ -2,6 +2,11 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ORANGE, DARK, LIGHT } from "@/lib/constants";
+import DeviceMockup from "./DeviceMockup";
+import mehaDesktop from "@/assets/Work/meha_desktop.webp";
+import mehaMobile from "@/assets/Work/meha_mobile.webp";
+import taglucopDesktop from "@/assets/Work/taglucop_desktop.webp";
+import taglucopMobile from "@/assets/Work/taglucop_mobile.webp";
 
 const projects = [
   {
@@ -16,8 +21,9 @@ const projects = [
     solution:
       "We built a real-time court reservation system with live availability, online payments, and a facility management dashboard — so venue owners run their business from a single screen.",
     url: "https://www.meha.online",
-    image:
-      "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?w=1200&q=80&fit=crop",
+    desktopMediaUrl: mehaDesktop,
+    mobileMediaUrl: mehaMobile,
+    imgClassName: "scale-[1.15]",
   },
   {
     name: "Taglucop Resort",
@@ -32,8 +38,8 @@ const projects = [
     solution:
       "We delivered a marketing website, online booking engine with dynamic pricing, add-on packages, discount codes, and a full admin control panel — all in one platform.",
     url: "https://taglucop-co.vercel.app",
-    image:
-      "https://images.unsplash.com/photo-1540541338537-1220059af4dc?w=1200&q=80&fit=crop",
+    desktopMediaUrl: taglucopDesktop,
+    mobileMediaUrl: taglucopMobile,
   },
 ];
 
@@ -63,30 +69,33 @@ function ProjectCard({
           ease: [0.16, 1, 0.3, 1],
         }}
       >
-        {/* Image side */}
+        {/* Image / Mockup side */}
         <div
-          className={`relative overflow-hidden ${isEven ? "md:order-1" : "md:order-2"}`}
-          style={{ minHeight: 420 }}
+          className={`relative overflow-hidden flex items-center justify-center ${isEven ? "md:order-1" : "md:order-2"}`}
+          style={{ minHeight: 420, background: "#111" }}
         >
-          <img
-            src={project.image}
-            alt={project.name}
-            loading="lazy"
-            decoding="async"
-            className="w-full h-full object-cover absolute inset-0"
-            style={{
-              filter: "brightness(0.5) contrast(1.15) grayscale(20%)",
-            }}
+          <div className="absolute inset-0 z-0 opacity-20 pointer-events-none" style={{
+            backgroundImage: `radial-gradient(circle at center, ${ORANGE}33 0%, transparent 70%)`
+          }} />
+          <DeviceMockup 
+            desktopMediaUrl={project.desktopMediaUrl} 
+            imgClassName={(project as any).imgClassName}
           />
+          {/* Mobile gradient */}
           <div
-            className="absolute inset-0"
+            className="absolute inset-0 pointer-events-none z-30 md:hidden"
+            style={{ background: "linear-gradient(to top, #0D0D0D 0%, transparent 40%)" }}
+          />
+          {/* Desktop gradient */}
+          <div
+            className="absolute inset-0 pointer-events-none z-30 hidden md:block"
             style={{
               background: isEven
                 ? "linear-gradient(to right, transparent 60%, #0D0D0D)"
                 : "linear-gradient(to left, transparent 60%, #0D0D0D)",
             }}
           />
-          <div className="absolute bottom-6 left-6">
+          <div className="absolute bottom-6 right-6 z-50">
             <span
               style={{
                 background: DARK,
@@ -103,7 +112,7 @@ function ProjectCard({
               {project.industry}
             </span>
           </div>
-          <div className="absolute top-6 right-6">
+          <div className="absolute top-6 left-6 z-50">
             <span
               style={{
                 fontFamily: "'Inter',sans-serif",

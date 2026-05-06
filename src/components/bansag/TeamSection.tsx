@@ -10,6 +10,15 @@ const founderImageUrls = import.meta.glob("../../assets/Founders/*.{jpg,jpeg,png
   as: "url",
 }) as Record<string, string>;
 
+if (typeof window !== "undefined") {
+  // Preload images as soon as this module is evaluated
+  Object.values(founderImageUrls).forEach((url) => {
+    const img = new Image();
+    img.fetchPriority = "high";
+    img.src = url;
+  });
+}
+
 /** Filename (any extension) must start with this slug, e.g. `dabon.jpg` or `dabon-2024.png`. */
 const FOUNDER_SLUG: Record<string, string> = {
   "Lyla Alexys Dabon": "dabon",
@@ -64,6 +73,8 @@ function TeamPhoto({ name }: { name: string }) {
     <img
       src={src}
       alt={name}
+      fetchPriority="high"
+      loading="eager"
       className="w-full h-full object-cover object-top transition-all duration-700 ease-out"
       style={{
         filter: "brightness(0.85) contrast(1.05)",

@@ -4,6 +4,8 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ORANGE, LIGHT, marqueeWords } from "@/lib/constants";
+import MehaHome from "../assets/Work/MehaHome.png";
+import TaglucopHome from "../assets/Work/TaglucopHome.png";
 
 const servicePillars = [
   {
@@ -122,10 +124,6 @@ function WhatWeDoTeaser() {
 function WorkPreview() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once:true, margin:"-80px" });
-  const projects = [
-    { name:"Meha Online", category:"Sports Booking Platform", outcome:"Courts fully booked online — zero phone calls needed.", image:"https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?w=1200&q=80&fit=crop" },
-    { name:"Taglucop Resort", category:"Resort Management System", outcome:"From manual reservations to a fully automated resort business.", image:"https://images.unsplash.com/photo-1540541338537-1220059af4dc?w=1200&q=80&fit=crop" },
-  ];
   return (
     <section className="py-24 md:py-32 px-6 md:px-16">
       <div className="max-w-7xl mx-auto">
@@ -138,35 +136,43 @@ function WorkPreview() {
         </motion.div>
         
         <div className="flex flex-col gap-20 md:gap-32">
-          {projects.map((p,i) => (
-            <motion.div key={p.name} className="group relative w-full" initial={{ opacity:0, y:40 }} animate={inView ? { opacity:1, y:0 } : {}} transition={{ delay:i*0.2+0.2, duration:0.8, ease:[0.16,1,0.3,1] }}>
-              {/* Image Container */}
-              <div className="relative w-full aspect-[4/3] md:aspect-[21/9] overflow-hidden mb-8 md:mb-10" style={{ background: "#1A1A1A" }}>
-                <img 
-                  src={p.image} 
-                  alt={p.name}
-                  loading="lazy"
-                  decoding="async" 
-                  className="absolute inset-0 w-full h-full object-cover origin-center transition-all duration-700 group-hover:scale-105 group-hover:brightness-90" 
-                  style={{ filter:"brightness(0.6) contrast(1.1) grayscale(20%)" }}
-                />
+          {/* Meha Project */}
+          <motion.div className="group relative w-full" initial={{ opacity:0, y:40 }} animate={inView ? { opacity:1, y:0 } : {}} transition={{ delay:0.2, duration:0.8, ease:[0.16,1,0.3,1] }}>
+            <div className="relative w-full h-[500px] md:h-[800px] overflow-hidden mb-8 md:mb-10 rounded-2xl bg-[#111]">
+              <img src={MehaHome} alt="Meha Online" className="w-full h-full object-cover object-top opacity-80 group-hover:opacity-100 transition-opacity duration-700" />
+            </div>
+            <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 md:gap-12">
+              <div className="flex-1">
+                <span style={{ fontFamily:"'Inter',sans-serif", fontWeight:600, fontSize:11, letterSpacing:"0.3em", textTransform:"uppercase", color:ORANGE, marginBottom:12, display:"block" }}>Sports Booking Platform</span>
+                <h3 className="uppercase leading-tight" style={{ fontSize:"clamp(32px, 4vw, 56px)", fontFamily:"'Anton','Impact',sans-serif", fontWeight:400, color:LIGHT }}>Meha Online</h3>
               </div>
-              
-              {/* Content */}
-              <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 md:gap-12">
-                <div className="flex-1">
-                  <span style={{ fontFamily:"'Inter',sans-serif", fontWeight:600, fontSize:11, letterSpacing:"0.3em", textTransform:"uppercase", color:ORANGE, marginBottom:12, display:"block" }}>{p.category}</span>
-                  <h3 className="uppercase leading-tight" style={{ fontSize:"clamp(32px, 4vw, 56px)", fontFamily:"'Anton','Impact',sans-serif", fontWeight:400, color:LIGHT }}>{p.name}</h3>
-                </div>
-                <div className="flex-1 md:max-w-md flex flex-col md:items-end md:text-right">
-                  <p style={{ fontSize:16, color:"#B0AAA4", lineHeight:1.6, fontFamily:"'Inter',sans-serif", marginBottom: 24 }}>"{p.outcome}"</p>
-                  <Link to="/work" className="inline-flex items-center gap-3 transition-all group-hover:gap-5" style={{ color:ORANGE, fontFamily:"'Inter',sans-serif", fontWeight:700, fontSize:10, letterSpacing:"0.3em", textTransform:"uppercase" }} data-hover="true">
-                    <span>View Case Study</span><span style={{ fontSize:16 }}>→</span>
-                  </Link>
-                </div>
+              <div className="flex-1 md:max-w-md flex flex-col md:items-end md:text-right">
+                <p style={{ fontSize:16, color:"#B0AAA4", lineHeight:1.6, fontFamily:"'Inter',sans-serif", marginBottom: 24 }}>"Courts fully booked online — zero phone calls needed."</p>
+                <Link to="/work" className="inline-flex items-center gap-3 transition-all group-hover:gap-5" style={{ color:ORANGE, fontFamily:"'Inter',sans-serif", fontWeight:700, fontSize:10, letterSpacing:"0.3em", textTransform:"uppercase" }} data-hover="true">
+                  <span>View Case Study</span><span style={{ fontSize:16 }}>→</span>
+                </Link>
               </div>
-            </motion.div>
-          ))}
+            </div>
+          </motion.div>
+
+          {/* Taglucop Project */}
+          <motion.div className="group relative w-full" initial={{ opacity:0, y:40 }} animate={inView ? { opacity:1, y:0 } : {}} transition={{ delay:0.4, duration:0.8, ease:[0.16,1,0.3,1] }}>
+            <div className="relative w-full h-[500px] md:h-[800px] overflow-hidden mb-8 md:mb-10 rounded-2xl bg-[#111]">
+              <img src={TaglucopHome} alt="Taglucop Resort" className="w-full h-full object-cover object-top opacity-80 group-hover:opacity-100 transition-opacity duration-700" />
+            </div>
+            <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 md:gap-12">
+              <div className="flex-1">
+                <span style={{ fontFamily:"'Inter',sans-serif", fontWeight:600, fontSize:11, letterSpacing:"0.3em", textTransform:"uppercase", color:ORANGE, marginBottom:12, display:"block" }}>Resort Management System</span>
+                <h3 className="uppercase leading-tight" style={{ fontSize:"clamp(32px, 4vw, 56px)", fontFamily:"'Anton','Impact',sans-serif", fontWeight:400, color:LIGHT }}>Taglucop Resort</h3>
+              </div>
+              <div className="flex-1 md:max-w-md flex flex-col md:items-end md:text-right">
+                <p style={{ fontSize:16, color:"#B0AAA4", lineHeight:1.6, fontFamily:"'Inter',sans-serif", marginBottom: 24 }}>"From manual reservations to a fully automated resort business."</p>
+                <Link to="/work" className="inline-flex items-center gap-3 transition-all group-hover:gap-5" style={{ color:ORANGE, fontFamily:"'Inter',sans-serif", fontWeight:700, fontSize:10, letterSpacing:"0.3em", textTransform:"uppercase" }} data-hover="true">
+                  <span>View Case Study</span><span style={{ fontSize:16 }}>→</span>
+                </Link>
+              </div>
+            </div>
+          </motion.div>
         </div>
 
         <div className="mt-20 md:mt-32 text-center border-t border-[#1A1A1A] pt-16">

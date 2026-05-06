@@ -49,30 +49,41 @@ const services = [
 function ServiceCard({ service, index }: { service: (typeof services)[0]; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
-  const [cardHovered, setCardHovered] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [hasPlayed, setHasPlayed] = useState(false);
   const [animLoopKey, setAnimLoopKey] = useState(0);
   const reduceMotion = useReducedMotion();
 
   const Anim = serviceModalAnimMap[service.num as keyof typeof serviceModalAnimMap];
   const Still = serviceStillFrameMap[service.num as keyof typeof serviceStillFrameMap];
-  const showMotion = cardHovered && !reduceMotion;
 
   useEffect(() => {
-    if (!showMotion) return;
-    const duration = (serviceModalLoopDurations[service.num] ?? 5) * 1000;
-    const t = window.setInterval(() => setAnimLoopKey((k) => k + 1), duration);
-    return () => window.clearInterval(t);
-  }, [showMotion, service.num]);
+    if (inView && !hasPlayed && !reduceMotion) {
+      setIsPlaying(true);
+      setHasPlayed(true);
+      const duration = (serviceModalLoopDurations[service.num] ?? 5) * 1000;
+      const t = setTimeout(() => setIsPlaying(false), duration);
+      return () => clearTimeout(t);
+    }
+  }, [inView, hasPlayed, reduceMotion, service.num]);
 
   const handleCardEnter = () => {
-    setCardHovered(true);
-    if (!reduceMotion) setAnimLoopKey((k) => k + 1);
+    if (!reduceMotion) {
+      setIsPlaying(true);
+      setAnimLoopKey((k) => k + 1);
+      const duration = (serviceModalLoopDurations[service.num] ?? 5) * 1000;
+      // Note: if user hovers repeatedly, we don't strictly clear previous timeouts here 
+      // but it's acceptable for this simple interaction.
+      setTimeout(() => setIsPlaying(false), duration);
+    }
   };
+
+  const showMotion = isPlaying;
 
   return (
     <motion.div
       ref={ref}
-      className="relative group overflow-hidden p-6 md:p-8 flex flex-col gap-5 h-full"
+      className="relative group overflow-hidden p-6 md:p-8 flex flex-col gap-5 h-full shrink-0 w-[85vw] md:w-auto snap-center"
       style={{
         border: `2px solid #1A1A1A`,
         background: DARK,
@@ -88,7 +99,6 @@ function ServiceCard({ service, index }: { service: (typeof services)[0]; index:
       whileHover={{ background: "#111111" }}
       data-hover="true"
       onMouseEnter={handleCardEnter}
-      onMouseLeave={() => setCardHovered(false)}
     >
       <motion.div
         className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 origin-center"
@@ -177,18 +187,18 @@ function ServiceCard({ service, index }: { service: (typeof services)[0]; index:
 
 export default function ServiceMatrix() {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const inView = useInView(ref, { once: true, margin: "-20%" });
 
   return (
     <section
       id="services"
-      className="py-24 md:py-40 px-6 md:px-16"
+      className="relative py-24 md:py-32 px-6 md:px-16"
       style={{ background: `${LIGHT}02` }}
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto w-full">
         <motion.div
           ref={ref}
-          className="mb-16 md:mb-24"
+          className="mb-12 md:mb-16"
           initial={{ opacity: 0, y: 50 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{
@@ -206,44 +216,47 @@ export default function ServiceMatrix() {
               color: ORANGE,
             }}
           >
-            What We Do
-          </span>
-          <h2
-            className="leading-none mt-4"
-            style={{
-              fontSize: "clamp(48px, 8vw, 96px)",
-              fontFamily: "'Anton','Impact',sans-serif",
-              fontWeight: 400,
-              color: LIGHT,
-            }}
-          >
-            FULL STACK
-            <br />
-            <span style={{ color: ORANGE }}>BRAND</span>
-            <br />
-            SOLUTIONS
-          </h2>
-          <p
-            className="mt-6 max-w-2xl"
-            style={{
-              fontSize: 17,
-              color: "#9E9890",
-              lineHeight: 1.75,
-              fontFamily: "'Inter',sans-serif",
-              fontWeight: 400,
-            }}
-          >
-            We don&apos;t just build websites. We architect{" "}
-            <span style={{ color: ORANGE }}>complete digital ecosystems</span> — tailored to the unique needs of every
-            client.
-          </p>
-        </motion.div>
+              What We Do
+            </span>
+            <h2
+              className="leading-none mt-4"
+              style={{
+                fontSize: "clamp(40px, 6vw, 80px)",
+                fontFamily: "'Anton','Impact',sans-serif",
+                fontWeight: 400,
+                color: LIGHT,
+              }}
+            >
+              FULL STACK
+              <br />
+              <span style={{ color: ORANGE }}>BRAND</span>
+              <br />
+              SOLUTIONS
+            </h2>
+            <p
+              className="mt-4 max-w-2xl"
+              style={{
+                fontSize: 16,
+                color: "#9E9890",
+                lineHeight: 1.6,
+                fontFamily: "'Inter',sans-serif",
+                fontWeight: 400,
+              }}
+            >
+              We don&apos;t just build websites. We architect{" "}
+              <span style={{ color: ORANGE }}>complete digital ecosystems</span> — tailored to the unique needs of every
+              client.
+            </p>
+          </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3" style={{ gap: 2, background: "#1A1A1A" }}>
-          {services.map((svc, i) => (
-            <ServiceCard key={svc.num} service={svc} index={i} />
-          ))}
-        </div>
+          <div 
+            className="flex overflow-x-auto snap-x snap-mandatory md:grid md:grid-cols-2 lg:grid-cols-3 no-scrollbar" 
+            style={{ gap: 2, background: "#1A1A1A" }}
+          >
+            {services.map((svc, i) => (
+              <ServiceCard key={svc.num} service={svc} index={i} />
+            ))}
+          </div>
       </div>
     </section>
   );

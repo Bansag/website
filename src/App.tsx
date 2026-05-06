@@ -1,6 +1,5 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import { useEffect, lazy, Suspense } from "react";
-import OrangeCursor from "./components/bansag/OrangeCursor";
 import ScrollProgress from "./components/bansag/ScrollProgress";
 import SiteNav from "./components/bansag/SiteNav";
 import SiteFooter from "./components/bansag/SiteFooter";
@@ -40,7 +39,6 @@ function App() {
         color: "#F5F0EB",
       }}
     >
-      <OrangeCursor />
       <ScrollProgress />
       <ScrollToTop />
 
