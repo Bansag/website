@@ -1,0 +1,14 @@
+{
+  "rewrites": [
+    {
+      "source": "/((?!assets/)(?!founders/)(?!favicon\\.svg)(?!icons\\.svg).*)",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/index.html",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
+    }
+  ]
+}

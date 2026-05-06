@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 3.9%;
+    --foreground: 30 14% 93%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 30 14% 93%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 30 14% 93%;
+    --primary: 20 100% 50%;
+    --primary-foreground: 0 0% 4%;
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 30 14% 93%;
+    --muted: 0 0% 10%;
+    --muted-foreground: 30 5% 56%;
+    --accent: 0 0% 10%;
+    --accent-foreground: 30 14% 93%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 10%;
+    --input: 0 0% 10%;
+    --ring: 20 100% 50%;
+    --radius: 0rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', sans-serif;
+    cursor: none;
+  }
+  
+  /* Hide default cursor globally on desktop */
+  @media (min-width: 768px) {
+    * {
+      cursor: none !important;
+    }
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Selection color */
+  ::selection {
+    background: #FF5500;
+    color: #0A0A0A;
+  }
+}
