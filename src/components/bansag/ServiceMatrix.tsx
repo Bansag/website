@@ -5,10 +5,7 @@ import {
   serviceModalLoopDurations,
   serviceStillFrameMap,
 } from "./ServiceModalAnimations";
-
-const ORANGE = "#FF5500";
-const DARK = "#0A0A0A";
-const LIGHT = "#F5F0EB";
+import { ORANGE, DARK, LIGHT } from "@/lib/constants";
 
 const services = [
   {

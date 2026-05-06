@@ -1,22 +1,5 @@
 import { Link } from "react-router-dom";
-
-const ORANGE = "#FF5500";
-
-const baybayinMap: Record<string, string> = {
-  B: "ᜊ",
-  A: "ᜀ",
-  N: "ᜈ",
-  S: "ᜐ",
-  G: "ᜄ",
-};
-const letters = ["B", "A", "N", "S", "A", "G"];
-
-const footerLinks = [
-  { label: "Services", href: "/services" },
-  { label: "Work", href: "/work" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
-];
+import { ORANGE, baybayinMap, brandLetters, navLinks, CONTACT_EMAIL } from "@/lib/constants";
 
 export default function SiteFooter() {
   return (
@@ -27,7 +10,7 @@ export default function SiteFooter() {
           style={{ borderBottom: "1px solid #1F1F1F" }}
         >
           <Link to="/" className="flex gap-2 items-end" data-hover="true" aria-label="Bansag home">
-            {letters.map((l, i) => (
+            {brandLetters.map((l, i) => (
               <div key={i} className="flex flex-col items-center">
                 <span
                   style={{
@@ -57,10 +40,11 @@ export default function SiteFooter() {
           </Link>
 
           <div className="flex flex-wrap gap-8">
-            {footerLinks.map((item) => (
+            {navLinks.map((item) => (
               <Link
                 key={item.label}
                 to={item.href}
+                className="nav-link"
                 style={{
                   fontFamily: "'Inter',sans-serif",
                   fontWeight: 500,
@@ -68,14 +52,7 @@ export default function SiteFooter() {
                   letterSpacing: "0.2em",
                   textTransform: "uppercase",
                   color: "#909090",
-                  transition: "color 0.2s",
                 }}
-                onMouseEnter={(e) =>
-                  ((e.target as HTMLElement).style.color = ORANGE)
-                }
-                onMouseLeave={(e) =>
-                  ((e.target as HTMLElement).style.color = "#909090")
-                }
                 data-hover="true"
               >
                 {item.label}
@@ -84,7 +61,8 @@ export default function SiteFooter() {
           </div>
 
           <a
-            href="mailto:bansag.ph@gmail.com"
+            href={`mailto:${CONTACT_EMAIL}`}
+            className="nav-link"
             style={{
               fontFamily: "'Inter',sans-serif",
               fontWeight: 500,
@@ -92,17 +70,10 @@ export default function SiteFooter() {
               letterSpacing: "0.2em",
               textTransform: "uppercase",
               color: "#909090",
-              transition: "color 0.2s",
             }}
-            onMouseEnter={(e) =>
-              ((e.target as HTMLElement).style.color = ORANGE)
-            }
-            onMouseLeave={(e) =>
-              ((e.target as HTMLElement).style.color = "#909090")
-            }
             data-hover="true"
           >
-            bansag.ph@gmail.com
+            {CONTACT_EMAIL}
           </a>
         </div>
 

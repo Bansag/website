@@ -3,16 +3,7 @@ import SlimMarquee from "../components/bansag/SlimMarquee";
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
-
-const ORANGE = "#FF5500";
-const LIGHT = "#F5F0EB";
-
-const marqueeWords = [
-  "BANSAG","BRAND","IDENTITY","品牌","ᜊᜀᜈᜐᜀᜄ",
-  "BUILD","DIGITAL","VOICE","PRESENCE","技術",
-  "PLATFORM","브랜드","BANSAG","BRAND","IDENTITY",
-  "品牌","ᜊᜀᜈᜐᜀᜄ","BUILD","DIGITAL","VOICE",
-];
+import { ORANGE, LIGHT, marqueeWords } from "@/lib/constants";
 
 const servicePillars = [
   {
@@ -21,10 +12,8 @@ const servicePillars = [
     desc: "Visual identity systems that make your brand instantly recognizable across every touchpoint.",
     icon: (
       <svg viewBox="0 0 48 48" fill="none" className="w-10 h-10">
-        <motion.rect x="8" y="8" width="32" height="32" rx="4" stroke={ORANGE} strokeWidth="2" fill="none"
-          initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 2, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }} />
-        <motion.circle cx="24" cy="24" r="8" fill={ORANGE}
-          initial={{ scale: 0.5, opacity: 0.3 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }} />
+        <rect x="8" y="8" width="32" height="32" rx="4" stroke={ORANGE} strokeWidth="2" fill="none" />
+        <circle cx="24" cy="24" r="8" fill={ORANGE} />
       </svg>
     ),
   },
@@ -34,10 +23,8 @@ const servicePillars = [
     desc: "Custom websites, booking systems, and platforms engineered around your exact business workflow.",
     icon: (
       <svg viewBox="0 0 48 48" fill="none" className="w-10 h-10">
-        <motion.path d="M12 36 L24 12 L36 36" stroke={ORANGE} strokeWidth="2" fill="none"
-          initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 2, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }} />
-        <motion.line x1="16" y1="28" x2="32" y2="28" stroke={ORANGE} strokeWidth="2"
-          initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.5, delay: 0.5, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }} />
+        <path d="M12 36 L24 12 L36 36" stroke={ORANGE} strokeWidth="2" fill="none" />
+        <line x1="16" y1="28" x2="32" y2="28" stroke={ORANGE} strokeWidth="2" />
       </svg>
     ),
   },
@@ -47,10 +34,8 @@ const servicePillars = [
     desc: "Analytics, automation, and strategic consulting that turn your digital presence into a growth machine.",
     icon: (
       <svg viewBox="0 0 48 48" fill="none" className="w-10 h-10">
-        <motion.path d="M8 40 L16 28 L26 32 L40 12" stroke={ORANGE} strokeWidth="2" fill="none" strokeLinecap="round"
-          initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 2, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }} />
-        <motion.circle cx="40" cy="12" r="3" fill={ORANGE}
-          initial={{ scale: 0 }} animate={{ scale: [0, 1.3, 1] }} transition={{ duration: 1, delay: 1.5, repeat: Infinity, repeatType: "reverse" }} />
+        <path d="M8 40 L16 28 L26 32 L40 12" stroke={ORANGE} strokeWidth="2" fill="none" strokeLinecap="round" />
+        <circle cx="40" cy="12" r="3" fill={ORANGE} />
       </svg>
     ),
   },
@@ -157,13 +142,13 @@ function WorkPreview() {
             <motion.div key={p.name} className="group relative w-full" initial={{ opacity:0, y:40 }} animate={inView ? { opacity:1, y:0 } : {}} transition={{ delay:i*0.2+0.2, duration:0.8, ease:[0.16,1,0.3,1] }}>
               {/* Image Container */}
               <div className="relative w-full aspect-[4/3] md:aspect-[21/9] overflow-hidden mb-8 md:mb-10" style={{ background: "#1A1A1A" }}>
-                <motion.img 
+                <img 
                   src={p.image} 
-                  alt={p.name} 
-                  className="absolute inset-0 w-full h-full object-cover origin-center" 
+                  alt={p.name}
+                  loading="lazy"
+                  decoding="async" 
+                  className="absolute inset-0 w-full h-full object-cover origin-center transition-all duration-700 group-hover:scale-105 group-hover:brightness-90" 
                   style={{ filter:"brightness(0.6) contrast(1.1) grayscale(20%)" }}
-                  whileHover={{ scale: 1.05, filter:"brightness(0.9) contrast(1.1) grayscale(0%)" }}
-                  transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 />
               </div>
               

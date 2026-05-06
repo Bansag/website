@@ -1,25 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
-
-const ORANGE = "#FF5500";
-const LIGHT = "#F5F0EB";
-
-const baybayinMap: Record<string, string> = {
-  B: "ᜊ",
-  A: "ᜀ",
-  N: "ᜈ",
-  S: "ᜐ",
-  G: "ᜄ",
-};
-const letters = ["B", "A", "N", "S", "A", "G"];
-
-const navLinks = [
-  { label: "Services", href: "/services" },
-  { label: "Work", href: "/work" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
-];
+import { ORANGE, LIGHT, baybayinMap, brandLetters, navLinks } from "@/lib/constants";
 
 export default function SiteNav() {
   const [scrolled, setScrolled] = useState(false);
@@ -68,7 +50,7 @@ export default function SiteNav() {
           data-hover="true"
           aria-label="Bansag home"
         >
-          {letters.map((l, i) => (
+          {brandLetters.map((l, i) => (
             <div key={i} className="flex flex-col items-center">
               <span
                 style={{
@@ -102,6 +84,7 @@ export default function SiteNav() {
             <Link
               key={link.label}
               to={link.href}
+              className={`nav-link${location.pathname === link.href ? " nav-link--active" : ""}`}
               style={{
                 fontFamily: "'Inter',sans-serif",
                 fontWeight: 500,
@@ -109,15 +92,7 @@ export default function SiteNav() {
                 letterSpacing: "0.25em",
                 textTransform: "uppercase",
                 color: location.pathname === link.href ? ORANGE : "#808080",
-                transition: "color 0.2s",
               }}
-              onMouseEnter={(e) =>
-                ((e.target as HTMLElement).style.color = ORANGE)
-              }
-              onMouseLeave={(e) =>
-                ((e.target as HTMLElement).style.color =
-                  location.pathname === link.href ? ORANGE : "#808080")
-              }
               data-hover="true"
             >
               {link.label}

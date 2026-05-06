@@ -1,39 +1,13 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import SlimMarquee from "./SlimMarquee";
-
-const ORANGE = "#FF5500";
-const LIGHT = "#F5F0EB";
+import { ORANGE, LIGHT, marqueeWords } from "@/lib/constants";
 
 const stats = [
   { num: "2026", label: "Year Founded" },
   { num: "10+", label: "Projects Delivered" },
   { num: "∞", label: "Possibilities" },
 ];
-
-const marqueeWords = [
-  "BANSAG",
-  "BRAND",
-  "IDENTITY",
-  "品牌",
-  "ᜊᜀᜈᜐᜀᜄ",
-  "BUILD",
-  "DIGITAL",
-  "VOICE",
-  "PRESENCE",
-  "技術",
-  "PLATFORM",
-  "브랜드",
-  "BANSAG",
-  "BRAND",
-  "IDENTITY",
-  "品牌",
-  "ᜊᜀᜈᜐᜀᜄ",
-  "BUILD",
-  "DIGITAL",
-  "VOICE",
-];
-
 export default function AboutSection() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
@@ -145,8 +119,7 @@ export default function AboutSection() {
               </div>
 
               <div
-                className="relative z-10 flex flex-col divide-y"
-                style={{ divideColor: "#1A1A1A" } as React.CSSProperties}
+                className="relative z-10 flex flex-col divide-y divide-[#1A1A1A]"
               >
                 {stats.map((stat, i) => (
                   <motion.div

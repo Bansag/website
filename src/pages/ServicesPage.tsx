@@ -1,8 +1,6 @@
 import ServiceMatrix from "../components/bansag/ServiceMatrix";
 import { Link } from "react-router-dom";
-
-const ORANGE = "#FF5500";
-const DARK = "#0A0A0A";
+import { ORANGE, DARK } from "@/lib/constants";
 
 export default function ServicesPage() {
   return (

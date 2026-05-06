@@ -1,10 +1,7 @@
-import { useRef, useState } from "react";
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
-
-const ORANGE = "#FF5500";
-const DARK = "#0A0A0A";
-const LIGHT = "#F5F0EB";
+import { ORANGE, DARK, LIGHT } from "@/lib/constants";
 
 const projects = [
   {
@@ -49,32 +46,10 @@ function ProjectCard({
 }) {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
-  const [wiping, setWiping] = useState(false);
   const isEven = index % 2 === 0;
-
-  const handleClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setWiping(true);
-    setTimeout(() => {
-      window.open(project.url, "_blank");
-      setWiping(false);
-    }, 700);
-  };
 
   return (
     <>
-      <AnimatePresence>
-        {wiping && (
-          <motion.div
-            className="fixed inset-0 z-[9998]"
-            style={{ background: ORANGE }}
-            initial={{ scaleX: 0, originX: 0 }}
-            animate={{ scaleX: 1 }}
-            exit={{ scaleX: 0, originX: 1 }}
-            transition={{ duration: 0.5, ease: [0.86, 0, 0.07, 1] }}
-          />
-        )}
-      </AnimatePresence>
 
       <motion.article
         ref={ref}
@@ -96,6 +71,8 @@ function ProjectCard({
           <img
             src={project.image}
             alt={project.name}
+            loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover absolute inset-0"
             style={{
               filter: "brightness(0.5) contrast(1.15) grayscale(20%)",
@@ -263,28 +240,24 @@ function ProjectCard({
             ))}
           </div>
 
-          <button
-            onClick={handleClick}
+          <a
+            href={project.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3"
             style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 12,
               color: ORANGE,
               fontFamily: "'Inter',sans-serif",
               fontWeight: 700,
               fontSize: 11,
               letterSpacing: "0.3em",
               textTransform: "uppercase",
-              background: "none",
-              border: "none",
-              cursor: "none",
-              padding: 0,
             }}
             data-hover="true"
           >
             <span>View Live Project</span>
             <span style={{ fontSize: 18 }}>↗</span>
-          </button>
+          </a>
         </div>
       </motion.article>
     </>

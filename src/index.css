@@ -34,19 +34,20 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Inter', sans-serif;
-    cursor: none;
-  }
-  
-  /* Hide default cursor globally on desktop */
-  @media (min-width: 768px) {
-    * {
-      cursor: none !important;
-    }
   }
 
-  /* Smooth scrolling */
-  html {
-    scroll-behavior: smooth;
+  /*
+   * Custom cursor: only hide native cursor on desktop via the body.
+   * Previous approach used `* { cursor: none !important }` which
+   * forced style recalculation on every element and caused jank.
+   */
+  @media (pointer: fine) and (min-width: 768px) {
+    body {
+      cursor: none;
+    }
+    a, button, [data-hover="true"] {
+      cursor: none;
+    }
   }
 
   /* Selection color */
@@ -54,4 +55,47 @@
     background: #FF5500;
     color: #0A0A0A;
   }
+
+  /* Respect user motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ── SlimMarquee CSS-only animation ──
+   GPU-composited, much cheaper than Framer Motion animate. */
+@keyframes marquee-scroll {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+@keyframes marquee-scroll-reverse {
+  from { transform: translate3d(-50%, 0, 0); }
+  to   { transform: translate3d(0, 0, 0); }
+}
+.marquee-track {
+  display: flex;
+  gap: 2rem;
+  white-space: nowrap;
+  width: max-content;
+  will-change: transform;
+  animation: marquee-scroll 30s linear infinite;
+}
+.marquee-track--reverse {
+  animation-name: marquee-scroll-reverse;
+}
+
+/* ── Nav link hover (replaces direct DOM manipulation) ── */
+.nav-link {
+  transition: color 0.2s ease;
+}
+.nav-link:hover {
+  color: #FF5500 !important;
+}
+.nav-link--active {
+  color: #FF5500 !important;
 }

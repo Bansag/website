@@ -1,8 +1,5 @@
 import { motion } from "framer-motion";
-
-const ORANGE = "#FF5500";
-const DARK = "#0A0A0A";
-const LIGHT = "#F5F0EB";
+import { ORANGE, DARK, LIGHT } from "@/lib/constants";
 
 /** Story: browser chrome → wireframe → hero → mark → CTA + caption */
 export function BrandWebsiteAnim() {

@@ -1,9 +1,7 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useEffect, useCallback } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
-
-const ORANGE = "#FF5500";
-const LIGHT = "#F5F0EB";
+import { ORANGE, LIGHT } from "@/lib/constants";
 
 export default function BansagHero() {
   const ref = useRef<HTMLElement>(null);
@@ -14,20 +12,24 @@ export default function BansagHero() {
   const y = useTransform(scrollYProgress, [0, 1], [0, -100]);
   const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
-  const [mouse, setMouse] = useState({ x: 0, y: 0 });
-  const [hasMouse, setHasMouse] = useState(false);
+  // Use raw DOM updates instead of React state to avoid per-frame re-renders.
+  const flashlightRef = useRef<HTMLDivElement>(null);
+
+  const onMouseMove = useCallback((e: MouseEvent) => {
+    const el = ref.current;
+    const fl = flashlightRef.current;
+    if (!el || !fl) return;
+    const rect = el.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    fl.style.background = `radial-gradient(600px circle at ${x}px ${y}px, ${ORANGE}10, transparent 60%)`;
+    fl.style.opacity = "1";
+  }, []);
 
   useEffect(() => {
-    const fn = (e: MouseEvent) => {
-      const el = ref.current;
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      setMouse({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-      setHasMouse(true);
-    };
-    window.addEventListener("mousemove", fn);
-    return () => window.removeEventListener("mousemove", fn);
-  }, []);
+    window.addEventListener("mousemove", onMouseMove, { passive: true });
+    return () => window.removeEventListener("mousemove", onMouseMove);
+  }, [onMouseMove]);
 
   return (
     <section
@@ -43,15 +45,12 @@ export default function BansagHero() {
         }}
       />
 
-      {/* Flashlight cursor radial */}
-      {hasMouse && (
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: `radial-gradient(600px circle at ${mouse.x}px ${mouse.y}px, ${ORANGE}10, transparent 60%)`,
-          }}
-        />
-      )}
+      {/* Flashlight cursor radial — updated via raw DOM, no re-renders */}
+      <div
+        ref={flashlightRef}
+        className="absolute inset-0 pointer-events-none"
+        style={{ opacity: 0 }}
+      />
 
       {/* Center glow */}
       <div

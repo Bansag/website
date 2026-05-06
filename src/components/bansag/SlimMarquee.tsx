@@ -1,8 +1,6 @@
 import type { CSSProperties } from "react";
-import { motion } from "framer-motion";
 import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
-
-const ORANGE = "#FF5500";
+import { ORANGE } from "@/lib/constants";
 
 /** Unicode Tagalog / Baybayin block */
 const BAYBAYIN = /[\u1700-\u171F]/;
@@ -28,7 +26,7 @@ function marqueeSpanStyle(word: string, i: number): CSSProperties {
     return {
       fontFamily:
         "'Inter', 'Apple SD Gothic Neo', 'Malgun Gothic', 'PingFang SC', sans-serif",
-      fontWeight: accent ? 500 : 500,
+      fontWeight: 500,
       fontSize: 11,
       letterSpacing: "0.16em",
       textTransform: "none",
@@ -46,11 +44,18 @@ function marqueeSpanStyle(word: string, i: number): CSSProperties {
   };
 }
 
+/**
+ * CSS-only infinite marquee.
+ *
+ * Previous implementation used Framer Motion `animate` for continuous
+ * translation. Pure CSS animation is GPU-composited and avoids the JS
+ * runtime cost of Framer Motion's spring loop on every frame.
+ */
 export default function SlimMarquee({
   words,
   reverse = false,
 }: {
-  words: string[];
+  words: readonly string[];
   reverse?: boolean;
 }) {
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -74,18 +79,15 @@ export default function SlimMarquee({
           ))}
         </div>
       ) : (
-        <motion.div
-          className="flex gap-8 whitespace-nowrap w-max"
-          animate={{ x: reverse ? ["-25%", "0%"] : ["0%", "-25%"] }}
-          transition={{ duration: 26, repeat: Infinity, ease: "linear" }}
-          style={{ willChange: "transform" }}
+        <div
+          className={`marquee-track${reverse ? " marquee-track--reverse" : ""}`}
         >
           {row.map((word, i) => (
             <span key={i} style={marqueeSpanStyle(word, i)}>
               {word}
             </span>
           ))}
-        </motion.div>
+        </div>
       )}
     </div>
   );

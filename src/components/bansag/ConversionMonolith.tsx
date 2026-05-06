@@ -1,17 +1,14 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
-
-const ORANGE = "#FF5500";
-const DARK = "#0A0A0A";
-const LIGHT = "#F5F0EB";
+import { ORANGE, DARK, LIGHT, CONTACT_EMAIL } from "@/lib/constants";
 
 /** Contact-page specifics: inbox, what to send, what to expect */
 const contactNotes = [
   {
     num: "01",
     title: "One inbox",
-    body: "Everything goes to bansag.ph@gmail.com — new builds, partnerships, or follow-ups. We read it all and aim to reply within a couple of business days.",
+    body: `Everything goes to ${CONTACT_EMAIL} — new builds, partnerships, or follow-ups. We read it all and aim to reply within a couple of business days.`,
   },
   {
     num: "02",
@@ -169,7 +166,7 @@ export default function ConversionMonolith() {
             Let's Build Together
           </p>
           <a
-            href="mailto:bansag.ph@gmail.com"
+            href={`mailto:${CONTACT_EMAIL}`}
             className="block group"
             data-hover="true"
           >
@@ -196,12 +193,12 @@ export default function ConversionMonolith() {
               fontWeight: 500,
             }}
           >
-            bansag.ph@gmail.com
+            {CONTACT_EMAIL}
           </p>
 
           <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="mailto:bansag.ph@gmail.com"
+              href={`mailto:${CONTACT_EMAIL}`}
               className="px-12 py-5 text-[11px] font-black tracking-[0.35em] uppercase border-2 transition-all hover:bg-black hover:text-orange-500 hover:border-black"
               style={{
                 borderColor: DARK,
