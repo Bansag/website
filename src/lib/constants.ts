@@ -28,7 +28,7 @@ export const navLinks = [
 ] as const;
 
 // ── Contact ──
-export const CONTACT_EMAIL = "bansag.ph@gmail.com";
+export const CONTACT_EMAIL = "hello@bansag.com";
 
 // ── Marquee Words (shared between HomePage and AboutSection) ──
 export const marqueeWords = [
