@@ -5,13 +5,6 @@ import { Link, useLocation } from "react-router-dom";
 const ORANGE = "#FF5500";
 const LIGHT = "#F5F0EB";
 
-const navLinks = [
-  { label: "Services", href: "/services" },
-  { label: "Work", href: "/work" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
-];
-
 const baybayinMap: Record<string, string> = {
   B: "ᜊ",
   A: "ᜀ",
@@ -20,6 +13,13 @@ const baybayinMap: Record<string, string> = {
   G: "ᜄ",
 };
 const letters = ["B", "A", "N", "S", "A", "G"];
+
+const navLinks = [
+  { label: "Services", href: "/services" },
+  { label: "Work", href: "/work" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
+];
 
 export default function SiteNav() {
   const [scrolled, setScrolled] = useState(false);
@@ -32,12 +32,10 @@ export default function SiteNav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close mobile menu on route change
   useEffect(() => {
     setMobileOpen(false);
   }, [location.pathname]);
 
-  // Prevent body scroll when mobile menu is open
   useEffect(() => {
     if (mobileOpen) {
       document.body.style.overflow = "hidden";
@@ -64,11 +62,11 @@ export default function SiteNav() {
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
-        {/* Logo */}
         <Link
           to="/"
           className="flex gap-1 items-end"
           data-hover="true"
+          aria-label="Bansag home"
         >
           {letters.map((l, i) => (
             <div key={i} className="flex flex-col items-center">
@@ -99,7 +97,6 @@ export default function SiteNav() {
           ))}
         </Link>
 
-        {/* Desktop links */}
         <div className="hidden md:flex items-center gap-10">
           {navLinks.map((link) => (
             <Link
@@ -118,7 +115,8 @@ export default function SiteNav() {
                 ((e.target as HTMLElement).style.color = ORANGE)
               }
               onMouseLeave={(e) =>
-                ((e.target as HTMLElement).style.color = location.pathname === link.href ? ORANGE : "#808080")
+                ((e.target as HTMLElement).style.color =
+                  location.pathname === link.href ? ORANGE : "#808080")
               }
               data-hover="true"
             >
@@ -127,7 +125,6 @@ export default function SiteNav() {
           ))}
         </div>
 
-        {/* Desktop CTA */}
         <Link
           to="/contact"
           className="hidden md:block px-6 py-3 transition-all hover:scale-105 active:scale-95"
@@ -145,7 +142,6 @@ export default function SiteNav() {
           Let's Talk
         </Link>
 
-        {/* Mobile hamburger */}
         <button
           className="md:hidden flex flex-col justify-center items-center w-10 h-10"
           onClick={() => setMobileOpen(!mobileOpen)}
@@ -175,7 +171,6 @@ export default function SiteNav() {
         </button>
       </motion.nav>
 
-      {/* Mobile menu overlay */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div

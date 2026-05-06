@@ -1,14 +1,16 @@
 import { Routes, Route, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, lazy, Suspense } from "react";
 import OrangeCursor from "./components/bansag/OrangeCursor";
 import ScrollProgress from "./components/bansag/ScrollProgress";
 import SiteNav from "./components/bansag/SiteNav";
 import SiteFooter from "./components/bansag/SiteFooter";
-import HomePage from "./pages/HomePage";
-import ServicesPage from "./pages/ServicesPage";
-import WorkPage from "./pages/WorkPage";
-import AboutPage from "./pages/AboutPage";
-import ContactPage from "./pages/ContactPage";
+import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
+
+const HomePage = lazy(() => import("./pages/HomePage"));
+const ServicesPage = lazy(() => import("./pages/ServicesPage"));
+const WorkPage = lazy(() => import("./pages/WorkPage"));
+const AboutPage = lazy(() => import("./pages/AboutPage"));
+const ContactPage = lazy(() => import("./pages/ContactPage"));
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -18,18 +20,32 @@ function ScrollToTop() {
   return null;
 }
 
+function PageFallback() {
+  return (
+    <div
+      className="min-h-[50vh]"
+      style={{ background: "#0A0A0A" }}
+      aria-hidden
+    />
+  );
+}
+
 function App() {
+  const prefersReducedMotion = usePrefersReducedMotion();
+
   return (
     <div
       className="min-h-screen overflow-x-hidden"
-      style={{ background: "#0A0A0A", color: "#F5F0EB", cursor: "none" }}
+      style={{
+        background: "#0A0A0A",
+        color: "#F5F0EB",
+        cursor: prefersReducedMotion ? "auto" : "none",
+      }}
     >
-      {/* Global overlays */}
       <OrangeCursor />
       <ScrollProgress />
       <ScrollToTop />
 
-      {/* Film grain texture */}
       <div
         className="fixed inset-0 pointer-events-none z-[60] opacity-[0.025]"
         style={{
@@ -38,7 +54,6 @@ function App() {
         }}
       />
 
-      {/* Skeleton grid overlay */}
       <div
         className="fixed inset-0 pointer-events-none z-0 opacity-[0.018]"
         style={{
@@ -48,13 +63,15 @@ function App() {
       />
 
       <SiteNav />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/services" element={<ServicesPage />} />
-        <Route path="/work" element={<WorkPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-      </Routes>
+      <Suspense fallback={<PageFallback />}>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/work" element={<WorkPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+        </Routes>
+      </Suspense>
       <SiteFooter />
     </div>
   );

@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import SlimMarquee from "./SlimMarquee";
 
 const ORANGE = "#FF5500";
 const LIGHT = "#F5F0EB";
@@ -33,51 +34,13 @@ const marqueeWords = [
   "VOICE",
 ];
 
-function SlimMarquee({ reverse = false }: { reverse?: boolean }) {
-  return (
-    <div
-      className="overflow-hidden py-2"
-      style={{
-        borderTop: "1px solid #1A1A1A",
-        borderBottom: "1px solid #1A1A1A",
-        background: "#050505",
-      }}
-    >
-      <motion.div
-        className="flex gap-8 whitespace-nowrap w-max"
-        animate={{ x: reverse ? ["-25%", "0%"] : ["0%", "-25%"] }}
-        transition={{ duration: 26, repeat: Infinity, ease: "linear" }}
-      >
-        {[...marqueeWords, ...marqueeWords].map((word, i) => (
-          <span
-            key={i}
-            style={{
-              fontFamily:
-                i % 4 === 0
-                  ? "'Anton','Impact',sans-serif"
-                  : "'Inter',sans-serif",
-              fontWeight: i % 4 === 0 ? 400 : 500,
-              fontSize: 10,
-              letterSpacing: "0.38em",
-              textTransform: "uppercase",
-              color: i % 4 === 0 ? ORANGE : "#2A2A2A",
-            }}
-          >
-            {word}
-          </span>
-        ))}
-      </motion.div>
-    </div>
-  );
-}
-
 export default function AboutSection() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
     <div id="about">
-      <SlimMarquee />
+      <SlimMarquee words={marqueeWords} />
       <section className="py-10 md:py-16 px-6 md:px-16 overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-16 md:gap-24 items-center">
@@ -234,7 +197,7 @@ export default function AboutSection() {
           </div>
         </div>
       </section>
-      <SlimMarquee reverse />
+      <SlimMarquee words={marqueeWords} reverse />
     </div>
   );
 }

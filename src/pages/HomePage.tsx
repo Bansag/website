@@ -1,4 +1,5 @@
 import BansagHero from "../components/bansag/BansagHero";
+import SlimMarquee from "../components/bansag/SlimMarquee";
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -12,18 +13,6 @@ const marqueeWords = [
   "PLATFORM","브랜드","BANSAG","BRAND","IDENTITY",
   "品牌","ᜊᜀᜈᜐᜀᜄ","BUILD","DIGITAL","VOICE",
 ];
-
-function SlimMarquee({ reverse = false }: { reverse?: boolean }) {
-  return (
-    <div className="overflow-hidden py-2" style={{ borderTop:"1px solid #1A1A1A", borderBottom:"1px solid #1A1A1A", background:"#050505" }}>
-      <motion.div className="flex gap-8 whitespace-nowrap w-max" animate={{ x: reverse ? ["-25%","0%"] : ["0%","-25%"] }} transition={{ duration:26, repeat:Infinity, ease:"linear" }}>
-        {[...marqueeWords,...marqueeWords].map((word,i) => (
-          <span key={i} style={{ fontFamily: i%4===0 ? "'Anton','Impact',sans-serif" : "'Inter',sans-serif", fontWeight: i%4===0 ? 400 : 500, fontSize:10, letterSpacing:"0.38em", textTransform:"uppercase", color: i%4===0 ? ORANGE : "#2A2A2A" }}>{word}</span>
-        ))}
-      </motion.div>
-    </div>
-  );
-}
 
 const servicePillars = [
   {
@@ -239,9 +228,9 @@ export default function HomePage() {
   return (
     <>
       <BansagHero />
-      <SlimMarquee />
+      <SlimMarquee words={marqueeWords} />
       <WhatWeDoTeaser />
-      <SlimMarquee reverse />
+      <SlimMarquee words={marqueeWords} reverse />
       <WorkPreview />
       <HomeCTA />
     </>

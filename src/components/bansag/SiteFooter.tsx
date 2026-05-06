@@ -26,8 +26,7 @@ export default function SiteFooter() {
           className="flex flex-col md:flex-row items-start md:items-center justify-between gap-10 mb-12 pb-12"
           style={{ borderBottom: "1px solid #1F1F1F" }}
         >
-          {/* Logo */}
-          <Link to="/" className="flex gap-2 items-end" data-hover="true">
+          <Link to="/" className="flex gap-2 items-end" data-hover="true" aria-label="Bansag home">
             {letters.map((l, i) => (
               <div key={i} className="flex flex-col items-center">
                 <span
@@ -57,7 +56,6 @@ export default function SiteFooter() {
             ))}
           </Link>
 
-          {/* Nav links */}
           <div className="flex flex-wrap gap-8">
             {footerLinks.map((item) => (
               <Link
@@ -85,7 +83,6 @@ export default function SiteFooter() {
             ))}
           </div>
 
-          {/* Email */}
           <a
             href="mailto:bansag.ph@gmail.com"
             style={{
@@ -109,7 +106,6 @@ export default function SiteFooter() {
           </a>
         </div>
 
-        {/* Bottom row */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <p
             style={{
@@ -121,7 +117,7 @@ export default function SiteFooter() {
               color: "#666660",
             }}
           >
-            © 2024 Bansag. All Rights Reserved.
+            © {new Date().getFullYear()} Bansag. All Rights Reserved.
           </p>
           <p
             style={{

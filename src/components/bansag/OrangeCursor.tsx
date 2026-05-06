@@ -1,69 +1,71 @@
-import { useEffect, useState } from "react";
-import { motion, useSpring } from "framer-motion";
+import { useEffect, useRef } from "react";
+import { motion, useMotionValue } from "framer-motion";
+import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 
+/**
+ * Follows the pointer via motion values only (no springs) for tight, low-latency tracking.
+ */
 export default function OrangeCursor() {
-  const [pos, setPos] = useState({ x: -200, y: -200 });
-  const [hovered, setHovered] = useState(false);
-  const [clicking, setClicking] = useState(false);
-
-  const springX = useSpring(pos.x, { stiffness: 400, damping: 28 });
-  const springY = useSpring(pos.y, { stiffness: 400, damping: 28 });
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const x = useMotionValue(-200);
+  const y = useMotionValue(-200);
+  const size = useMotionValue(20);
+  const clickingRef = useRef(false);
 
   useEffect(() => {
-    const onMove = (e: MouseEvent) => setPos({ x: e.clientX, y: e.clientY });
-    const onOver = (e: MouseEvent) =>
-      setHovered(
-        !!(e.target as HTMLElement).closest("a,button,[data-hover='true']")
-      );
-    const onDown = () => setClicking(true);
-    const onUp = () => setClicking(false);
+    const last = { x: 0, y: 0 };
 
-    window.addEventListener("mousemove", onMove);
-    window.addEventListener("mouseover", onOver);
+    const paint = (clientX: number, clientY: number) => {
+      last.x = clientX;
+      last.y = clientY;
+      const target = document.elementFromPoint(clientX, clientY);
+      const hovered = !!(target as HTMLElement)?.closest?.(
+        "a,button,[data-hover='true']",
+      );
+      const clicking = clickingRef.current;
+      const s = hovered ? 80 : clicking ? 14 : 20;
+      const half = s / 2;
+      size.set(s);
+      x.set(clientX - half);
+      y.set(clientY - half);
+    };
+
+    const onMove = (e: MouseEvent) => paint(e.clientX, e.clientY);
+
+    const onDown = () => {
+      clickingRef.current = true;
+      paint(last.x, last.y);
+    };
+    const onUp = () => {
+      clickingRef.current = false;
+      paint(last.x, last.y);
+    };
+
+    window.addEventListener("mousemove", onMove, { passive: true });
     window.addEventListener("mousedown", onDown);
     window.addEventListener("mouseup", onUp);
 
     return () => {
       window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("mouseover", onOver);
       window.removeEventListener("mousedown", onDown);
       window.removeEventListener("mouseup", onUp);
     };
-  }, []);
+  }, [x, y, size]);
 
-  useEffect(() => {
-    springX.set(pos.x - (hovered ? 40 : 10));
-    springY.set(pos.y - (hovered ? 40 : 10));
-  }, [pos, hovered, springX, springY]);
-
-  const size = hovered ? 80 : clicking ? 14 : 20;
+  if (prefersReducedMotion) return null;
 
   return (
-    <>
-      <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9999] rounded-full hidden md:block"
-        style={{
-          x: springX,
-          y: springY,
-          width: size,
-          height: size,
-          background: "#FF5500",
-          mixBlendMode: "difference",
-          transition: "width 0.2s ease, height 0.2s ease",
-        }}
-      />
-      {/* Small trailing dot */}
-      <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9998] rounded-full hidden md:block"
-        style={{
-          x: pos.x - 3,
-          y: pos.y - 3,
-          width: 6,
-          height: 6,
-          background: "#FF5500",
-          opacity: 0.5,
-        }}
-      />
-    </>
+    <motion.div
+      className="fixed top-0 left-0 pointer-events-none z-[9999] rounded-full hidden md:block transform-gpu"
+      style={{
+        x,
+        y,
+        width: size,
+        height: size,
+        background: "#FF5500",
+        mixBlendMode: "difference",
+        willChange: "transform, width, height",
+      }}
+    />
   );
 }
