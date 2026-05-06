@@ -4,8 +4,10 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ORANGE, LIGHT, marqueeWords } from "@/lib/constants";
-import MehaHome from "../assets/Work/meha_mobile.webp";
-import TaglucopHome from "../assets/Work/taglucop_mobile.webp";
+import MehaDesktopImg from "../assets/Work/MehaHome.png";
+import MehaMobileImg from "../assets/Work/meha_mobile.webp";
+import TaglucopDesktopImg from "../assets/Work/TaglucopHome.png";
+import TaglucopMobileImg from "../assets/Work/taglucop_mobile.webp";
 
 const servicePillars = [
   {
@@ -139,7 +141,8 @@ function WorkPreview() {
           {/* Meha Project */}
           <motion.div className="group relative w-full" initial={{ opacity:0, y:40 }} animate={inView ? { opacity:1, y:0 } : {}} transition={{ delay:0.2, duration:0.8, ease:[0.16,1,0.3,1] }}>
             <div className="relative w-full h-[500px] md:h-[800px] overflow-hidden mb-8 md:mb-10 rounded-2xl bg-[#111]">
-              <img src={MehaHome} alt="Meha Online" className="w-full h-full object-cover object-top opacity-80 group-hover:opacity-100 transition-opacity duration-700" />
+              <img src={MehaDesktopImg} alt="Meha Online" className="hidden md:block w-full h-full object-cover object-top opacity-80 group-hover:opacity-100 transition-opacity duration-700" />
+              <img src={MehaMobileImg} alt="Meha Online Mobile" className="block md:hidden w-full h-full object-cover object-top opacity-80 group-hover:opacity-100 transition-opacity duration-700" />
             </div>
             <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 md:gap-12">
               <div className="flex-1">
@@ -158,7 +161,8 @@ function WorkPreview() {
           {/* Taglucop Project */}
           <motion.div className="group relative w-full" initial={{ opacity:0, y:40 }} animate={inView ? { opacity:1, y:0 } : {}} transition={{ delay:0.4, duration:0.8, ease:[0.16,1,0.3,1] }}>
             <div className="relative w-full h-[500px] md:h-[800px] overflow-hidden mb-8 md:mb-10 rounded-2xl bg-[#111]">
-              <img src={TaglucopHome} alt="Taglucop Resort" className="w-full h-full object-cover object-top opacity-80 group-hover:opacity-100 transition-opacity duration-700" />
+              <img src={TaglucopDesktopImg} alt="Taglucop Resort" className="hidden md:block w-full h-full object-cover object-top opacity-80 group-hover:opacity-100 transition-opacity duration-700" />
+              <img src={TaglucopMobileImg} alt="Taglucop Resort Mobile" className="block md:hidden w-full h-full object-cover object-top opacity-80 group-hover:opacity-100 transition-opacity duration-700" />
             </div>
             <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 md:gap-12">
               <div className="flex-1">
