@@ -83,7 +83,7 @@ function ServiceCard({ service, index }: { service: (typeof services)[0]; index:
   return (
     <motion.div
       ref={ref}
-      className="relative group overflow-hidden p-6 md:p-8 flex flex-col gap-5 h-full shrink-0 w-[85vw] md:w-auto snap-center"
+      className="relative group overflow-hidden p-6 md:p-8 flex flex-col gap-5 h-full w-full"
       style={{
         border: `2px solid #1A1A1A`,
         background: DARK,
@@ -250,7 +250,7 @@ export default function ServiceMatrix() {
           </motion.div>
 
           <div 
-            className="flex overflow-x-auto snap-x snap-mandatory md:grid md:grid-cols-2 lg:grid-cols-3 no-scrollbar" 
+            className="flex flex-col md:grid md:grid-cols-2 lg:grid-cols-3" 
             style={{ gap: 2, background: "#1A1A1A" }}
           >
             {services.map((svc, i) => (

@@ -4,8 +4,8 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ORANGE, LIGHT, marqueeWords } from "@/lib/constants";
-import MehaHome from "../assets/Work/MehaHome.png";
-import TaglucopHome from "../assets/Work/TaglucopHome.png";
+import MehaHome from "../assets/Work/meha_mobile.webp";
+import TaglucopHome from "../assets/Work/taglucop_mobile.webp";
 
 const servicePillars = [
   {

@@ -14,7 +14,7 @@ const projects = [
     category: "Sports Booking Platform",
     industry: "Sports & Recreation",
     tech: ["React", "Node.js", "PostgreSQL"],
-    year: "2024",
+    year: "2025",
     outcome: "Courts fully booked online — zero phone calls needed.",
     problem:
       "Sports venues were losing bookings to manual scheduling, missed calls, and no payment collection.",
@@ -30,7 +30,7 @@ const projects = [
     category: "Resort Management System",
     industry: "Hospitality",
     tech: ["React", "Supabase", "Node.js"],
-    year: "2024",
+    year: "2026",
     outcome:
       "From manual reservations to a fully automated resort business.",
     problem:
