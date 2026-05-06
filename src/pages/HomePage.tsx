@@ -5,9 +5,9 @@ import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ORANGE, LIGHT, marqueeWords } from "@/lib/constants";
 import MehaDesktopImg from "../assets/Work/MehaHome.png";
-import MehaMobileImg from "../assets/Work/meha_mobile.webp";
+import MehaMobileImg from "../assets/Work/MehaMobileView.png";
 import TaglucopDesktopImg from "../assets/Work/TaglucopHome.png";
-import TaglucopMobileImg from "../assets/Work/taglucop_mobile.webp";
+import TaglucopMobileImg from "../assets/Work/TaglucopMobileView.png";
 
 const servicePillars = [
   {
