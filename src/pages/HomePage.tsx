@@ -1,3 +1,4 @@
+import SeoHead from "../components/bansag/SeoHead";
 import BansagHero from "../components/bansag/BansagHero";
 import SlimMarquee from "../components/bansag/SlimMarquee";
 import { useRef } from "react";
@@ -222,6 +223,54 @@ function HomeCTA() {
 export default function HomePage() {
   return (
     <>
+      <SeoHead
+        title="Filipino Tech Studio — We Build Complete Digital Systems"
+        description="Bansag is a Filipino tech studio that builds complete digital systems — brand identity, websites, booking systems, e-commerce, custom software, and admin dashboards for businesses in the Philippines."
+        canonicalPath="/"
+        keywords="Filipino tech studio, Filipino web development agency, web design Philippines, custom software Philippines, digital systems Philippines, brand identity Philippines"
+        schemaJson={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Bansag",
+            "alternateName": "Bansag Filipino Tech Studio",
+            "url": "https://bansag.com",
+            "logo": "https://bansag.com/favicon.svg",
+            "description": "Filipino tech studio that builds complete digital systems — brand identity, websites, booking systems, e-commerce, custom software, and admin dashboards.",
+            "email": "hello@bansag.com",
+            "foundingDate": "2026",
+            "foundingLocation": { "@type": "Place", "addressCountry": "PH" },
+            "areaServed": [
+              { "@type": "Country", "name": "Philippines" },
+              { "@type": "Country", "name": "United States" }
+            ],
+            "serviceType": [
+              "Web Development",
+              "Brand Identity Design",
+              "Custom Software Development",
+              "Booking System Development",
+              "E-commerce Development",
+              "Tech Consulting"
+            ],
+            "sameAs": []
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Bansag",
+            "url": "https://bansag.com",
+            "description": "Filipino tech studio building complete digital systems.",
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "https://bansag.com/work?q={search_term_string}"
+              },
+              "query-input": "required name=search_term_string"
+            }
+          }
+        ]}
+      />
       <BansagHero />
       <SlimMarquee words={marqueeWords} />
       <WhatWeDoTeaser />
