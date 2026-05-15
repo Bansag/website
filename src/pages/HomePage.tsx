@@ -259,15 +259,7 @@ export default function HomePage() {
             "@type": "WebSite",
             "name": "Bansag",
             "url": "https://bansag.com",
-            "description": "Filipino tech studio building complete digital systems.",
-            "potentialAction": {
-              "@type": "SearchAction",
-              "target": {
-                "@type": "EntryPoint",
-                "urlTemplate": "https://bansag.com/work?q={search_term_string}"
-              },
-              "query-input": "required name=search_term_string"
-            }
+            "description": "Filipino tech studio building complete digital systems."
           }
         ]}
       />
