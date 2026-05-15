@@ -79,7 +79,7 @@ function ProjectCard({
           }} />
           <DeviceMockup 
             desktopMediaUrl={project.desktopMediaUrl} 
-            imgClassName={(project as any).imgClassName}
+            imgClassName={"imgClassName" in project ? project.imgClassName : undefined}
           />
           {/* Mobile gradient */}
           <div
